@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App de Colorear - Hermosa Flor de 6 Pétalos</title>
-    <!-- Librería de Confetti para la celebración -->
+    <title>App de Colorear - Flor de 6 Pétalos</title>
+    <!-- Librería de Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary-color: #7b1fa2;
             --bg-color: #f3e5f5;
         }
 
@@ -40,7 +39,6 @@
             margin-bottom: 10px;
         }
 
-        /* Barra de herramientas / Controles */
         .toolbar {
             display: flex;
             justify-content: center;
@@ -64,11 +62,6 @@
             transform: scale(1.05);
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Lienzo del dibujo SVG */
         .canvas-box {
             width: 100%;
             height: 350px;
@@ -86,22 +79,20 @@
             max-height: 100%;
         }
 
-        /* Estilos de las zonas pintables */
         .zona-pintable {
-            fill: #ffffff; /* Color inicial blanco */
+            fill: #ffffff; /* Color inicial blanco por defecto */
             stroke: #2d2d2d;
             stroke-width: 3px;
             stroke-linejoin: round;
             stroke-linecap: round;
-            transition: fill 0.3s ease, filter 0.2s;
+            transition: filter 0.2s;
             cursor: pointer;
         }
 
         .zona-pintable:hover {
-            filter: brightness(0.95);
+            filter: brightness(0.92);
         }
 
-        /* Paleta de Colores */
         .palette {
             display: flex;
             justify-content: center;
@@ -128,7 +119,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        /* Mensaje de completado */
         #mensaje-victoria {
             margin-top: 15px;
             font-size: 16px;
@@ -149,14 +139,13 @@
     <div class="app-container">
         <h1>🎨 Rincón de Colorear</h1>
         
-        <!-- Botones de Deshacer / Rehacer -->
         <div class="toolbar">
-            <button class="btn" id="btn-undo" onclick="deshacer()">↶ Deshacer</button>
-            <button class="btn" id="btn-redo" onclick="rehacer()">↷ Rehacer</button>
+            <button class="btn" onclick="deshacer()">↶ Deshacer</button>
+            <button class="btn" onclick="rehacer()">↷ Rehacer</button>
             <button class="btn" onclick="reiniciar()">🔄 Borrar todo</button>
         </div>
 
-        <!-- Lienzo con la flor de 6 pétalos estilizada -->
+        <!-- Lienzo de la flor de 6 pétalos simétricos -->
         <div class="canvas-box">
             <svg viewBox="0 0 300 300" width="100%" height="100%">
                 <!-- Tallo -->
@@ -168,7 +157,7 @@
                 <!-- Hoja Derecha -->
                 <path class="zona-pintable" id="hoja-der" d="M157,210 Q200,195 220,215 Q225,235 195,235 Q170,225 157,210 Z" />
 
-                <!-- 6 Pétalos simétricos alrededor del centro (cx=150, cy=115) -->
+                <!-- 6 Pétalos simétricos -->
                 <path class="zona-pintable" id="petalo-1" d="M150,115 C130,70 125,30 150,20 C175,30 170,70 150,115 Z" />
                 <path class="zona-pintable" id="petalo-2" d="M150,115 C180,105 210,85 220,105 C230,125 190,140 150,115 Z" />
                 <path class="zona-pintable" id="petalo-3" d="M150,115 C190,135 210,165 195,180 C180,195 155,155 150,115 Z" />
@@ -181,15 +170,15 @@
             </svg>
         </div>
 
-        <!-- Paleta de colores interactiva -->
-        <div class="palette" id="palette">
-            <div class="color-btn active" style="background-color: #ff4081;" data-color="#ff4081" title="Rosa Vívido"></div>
-            <div class="color-btn" style="background-color: #7b1fa2;" data-color="#7b1fa2" title="Morado"></div>
-            <div class="color-btn" style="background-color: #ffeb3b;" data-color="#ffeb3b" title="Amarillo"></div>
-            <div class="color-btn" style="background-color: #4caf50;" data-color="#4caf50" title="Verde"></div>
-            <div class="color-btn" style="background-color: #03a9f4;" data-color="#03a9f4" title="Celeste"></div>
-            <div class="color-btn" style="background-color: #ff9800;" data-color="#ff9800" title="Naranja"></div>
-            <div class="color-btn" style="background-color: #ffffff; border-color: #ccc;" data-color="#ffffff" title="Borrador/Blanco"></div>
+        <!-- Paleta de colores -->
+        <div class="palette">
+            <div class="color-btn active" style="background-color: #ff4081;" data-color="#ff4081"></div>
+            <div class="color-btn" style="background-color: #7b1fa2;" data-color="#7b1fa2"></div>
+            <div class="color-btn" style="background-color: #ffeb3b;" data-color="#ffeb3b"></div>
+            <div class="color-btn" style="background-color: #4caf50;" data-color="#4caf50"></div>
+            <div class="color-btn" style="background-color: #03a9f4;" data-color="#03a9f4"></div>
+            <div class="color-btn" style="background-color: #ff9800;" data-color="#ff9800"></div>
+            <div class="color-btn" style="background-color: #ffffff; border-color: #ccc;" data-color="#ffffff" title="Borrador"></div>
         </div>
 
         <div id="mensaje-victoria">✨ ¡Hermosa obra de arte! ¡Completado! 🎉</div>
@@ -204,7 +193,6 @@
         const colorBtns = document.querySelectorAll('.color-btn');
         const mensajeVictoria = document.getElementById('mensaje-victoria');
 
-        // 1. Selector de colores dinámico
         colorBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 colorBtns.forEach(b => b.classList.remove('active'));
@@ -213,73 +201,65 @@
             });
         });
 
-        // 2. Pintar las zonas al hacer clic
         zonas.forEach(zona => {
             zona.addEventListener('click', () => {
-                const colorAnterior = zona.getAttribute('fill');
+                // Obtenemos el color actual usando style.fill o fill por defecto
+                let colorAnterior = zona.style.fill || '#ffffff';
                 
+                // Normalizamos formato blanco si es necesario
+                if(colorAnterior === '') colorAnterior = '#ffffff';
+
                 if (colorAnterior !== colorActual) {
                     historial.push({ zona: zona, colorAnterior: colorAnterior, colorNuevo: colorActual });
                     rehacelist = []; 
 
-                    zona.setAttribute('fill', colorActual);
+                    // Asignamos usando style.fill para garantizar que pinte inmediatamente
+                    zona.style.fill = colorActual;
                     verificarProgreso();
                 }
             });
         });
 
-        // 3. Función Deshacer (Undo)
         function deshacer() {
             if (historial.length === 0) return;
             const ultimaAccion = historial.pop();
             rehacelist.push(ultimaAccion);
-            ultimaAccion.zona.setAttribute('fill', ultimaAccion.colorAnterior);
+            ultimaAccion.zona.style.fill = ultimaAccion.colorAnterior;
             mensajeVictoria.style.display = 'none';
         }
 
-        // 4. Función Rehacer (Redo)
         function rehacer() {
             if (rehacelist.length === 0) return;
             const accionRedo = rehacelist.pop();
             historial.push(accionRedo);
-            accionRedo.zona.setAttribute('fill', accionRedo.colorNuevo);
+            accionRedo.zona.style.fill = accionRedo.colorNuevo;
             verificarProgreso();
         }
 
-        // 5. Reiniciar dibujo
         function reiniciar() {
             zonas.forEach(zona => {
-                zona.setAttribute('fill', '#ffffff');
+                zona.style.fill = '#ffffff';
             });
             historial = [];
             rehacelist = [];
             mensajeVictoria.style.display = 'none';
         }
 
-        // 6. Verificar si se completó el dibujo para lanzar confeti
         function verificarProgreso() {
             let pintadas = 0;
             zonas.forEach(zona => {
-                if (zona.getAttribute('fill') !== '#ffffff') {
+                let currentFill = zona.style.fill;
+                if (currentFill && currentFill !== '#ffffff' && currentFill !== 'rgb(255, 255, 255)') {
                     pintadas++;
                 }
             });
 
             if (pintadas === zonas.length) {
                 mensajeVictoria.style.display = 'block';
-                lanzarConfeti();
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             } else {
                 mensajeVictoria.style.display = 'none';
             }
-        }
-
-        // 7. Efecto de confeti con canvas-confetti
-        function lanzarConfeti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
         }
     </script>
 </body>
