@@ -156,7 +156,7 @@
             <button class="btn" onclick="reiniciar()">🔄 Borrar todo</button>
         </div>
 
-        <!-- Lienzo con la nueva flor de 6 pétalos estilizada -->
+        <!-- Lienzo con la flor de 6 pétalos estilizada -->
         <div class="canvas-box">
             <svg viewBox="0 0 300 300" width="100%" height="100%">
                 <!-- Tallo -->
@@ -169,17 +169,11 @@
                 <path class="zona-pintable" id="hoja-der" d="M157,210 Q200,195 220,215 Q225,235 195,235 Q170,225 157,210 Z" />
 
                 <!-- 6 Pétalos simétricos alrededor del centro (cx=150, cy=115) -->
-                <!-- Pétalo 1 (Arriba) -->
                 <path class="zona-pintable" id="petalo-1" d="M150,115 C130,70 125,30 150,20 C175,30 170,70 150,115 Z" />
-                <!-- Pétalo 2 (Arriba Derecha) -->
                 <path class="zona-pintable" id="petalo-2" d="M150,115 C180,105 210,85 220,105 C230,125 190,140 150,115 Z" />
-                <!-- Pétalo 3 (Abajo Derecha) -->
                 <path class="zona-pintable" id="petalo-3" d="M150,115 C190,135 210,165 195,180 C180,195 155,155 150,115 Z" />
-                <!-- Pétalo 4 (Abajo) -->
                 <path class="zona-pintable" id="petalo-4" d="M150,115 C170,160 175,200 150,210 C125,200 130,160 150,115 Z" />
-                <!-- Pétalo 5 (Abajo Izquierda) -->
                 <path class="zona-pintable" id="petalo-5" d="M150,115 C110,135 90,165 105,180 C120,195 145,155 150,115 Z" />
-                <!-- Pétalo 6 (Arriba Izquierda) -->
                 <path class="zona-pintable" id="petalo-6" d="M150,115 C120,105 90,85 80,105 C70,125 110,140 150,115 Z" />
 
                 <!-- Centro de la flor -->
@@ -225,9 +219,8 @@
                 const colorAnterior = zona.getAttribute('fill');
                 
                 if (colorAnterior !== colorActual) {
-                    // Guardar acción en el historial para el "Deshacer"
                     historial.push({ zona: zona, colorAnterior: colorAnterior, colorNuevo: colorActual });
-                    rehacelist = []; // Limpiar rehacer al hacer una nueva acción
+                    rehacelist = []; 
 
                     zona.setAttribute('fill', colorActual);
                     verificarProgreso();
@@ -272,7 +265,6 @@
                 }
             });
 
-            // Si todas las zonas tienen color distinto al blanco, lanzamos confeti
             if (pintadas === zonas.length) {
                 mensajeVictoria.style.display = 'block';
                 lanzarConfeti();
