@@ -4,153 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App de Colorear - Flor de 6 Pétalos</title>
-    <!-- Librería de Confetti -->
+    <!-- Incluyendo Tailwind CSS para un diseño limpio y moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Librería de Confetti para la animación de victoria -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --bg-color: #f3e5f5;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: #fce7f3;
         }
-
-        .app-container {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 480px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h1 {
-            color: #4a148c;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .toolbar {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            background-color: #e1bee7;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #4a148c;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .btn:hover {
-            background-color: #ce93d8;
-            transform: scale(1.05);
-        }
-
-        .canvas-box {
-            width: 100%;
-            height: 350px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            background: #fafafa;
-            border-radius: 12px;
-            border: 2px dashed #d1c4e9;
-        }
-
-        svg {
-            max-width: 100%;
-            max-height: 100%;
-            overflow: visible;
-        }
-
-        /* Zonas pintables claras y responsivas */
         .zona-pintable {
             fill: #ffffff;
-            stroke: #2d2d2d;
-            stroke-width: 3px;
+            stroke: #1f2937;
+            stroke-width: 3.5px;
             stroke-linejoin: round;
             stroke-linecap: round;
-            transition: filter 0.2s;
+            transition: filter 0.2s ease, transform 0.1s ease;
             cursor: pointer;
         }
-
         .zona-pintable:hover {
             filter: brightness(0.92);
         }
-
-        .palette {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
-
-        .color-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .color-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .color-btn.active {
-            border-color: #212121;
-            transform: scale(1.15);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        #mensaje-victoria {
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #2e7d32;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div class="app-container">
-        <h1>🎨 Rincón de Colorear</h1>
-        
-        <div class="toolbar">
-            <button class="btn" onclick="deshacer()">↶ Deshacer</button>
-            <button class="btn" onclick="rehacer()">↷ Rehacer</button>
-            <button class="btn" onclick="reiniciar()">🔄 Borrar todo</button>
+    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl max-w-md w-full text-center border border-pink-100">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-pink-700 mb-2">🎨 Rincón de Colorear</h1>
+        <p class="text-gray-500 text-sm mb-6">Selecciona un color y da vida a esta hermosa flor simétrica.</p>
+
+        <!-- Barra de herramientas (Deshacer, Rehacer, Borrar todo) -->
+        <div class="flex justify-center gap-3 mb-6">
+            <button onclick="deshacer()" class="px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 text-sm font-semibold rounded-xl transition shadow-sm active:scale-95 flex items-center gap-1">
+                ↶ Deshacer
+            </button>
+            <button onclick="rehacer()" class="px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-800 text-sm font-semibold rounded-xl transition shadow-sm active:scale-95 flex items-center gap-1">
+                ↷ Rehacer
+            </button>
+            <button onclick="reiniciar()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-sm font-semibold rounded-xl transition shadow-sm active:scale-95 flex items-center gap-1">
+                🔄 Reiniciar
+            </button>
         </div>
 
-        <!-- Lienzo SVG con flor de 6 pétalos rediseñada -->
-        <div class="canvas-box">
-            <svg viewBox="0 0 300 300" width="100%" height="100%">
+        <!-- Lienzo SVG con flor de 6 pétalos simétrica perfecta -->
+        <div class="bg-gray-50 border-2 border-dashed border-pink-200 rounded-2xl p-4 mb-6 flex justify-center items-center shadow-inner">
+            <svg viewBox="0 0 300 300" class="w-full max-w-[280px] h-auto drop-shadow-sm">
                 <!-- Tallo -->
                 <path class="zona-pintable" id="tallo" d="M145,170 Q140,225 146,280 L154,280 Q160,225 155,170 Z" />
                 
@@ -160,35 +58,39 @@
                 <!-- Hoja Derecha -->
                 <path class="zona-pintable" id="hoja-der" d="M156,210 Q200,195 225,210 Q230,230 200,235 Q175,230 156,210 Z" />
 
-                <!-- 6 Pétalos simétricos -->
-                <path class="zona-pintable" id="petalo-1" d="M150,115 C130,70 120,30 150,15 C180,30 170,70 150,115 Z" />
-                <path class="zona-pintable" id="petalo-2" d="M150,115 C185,105 220,90 230,115 C240,140 190,145 150,115 Z" />
-                <path class="zona-pintable" id="petalo-3" d="M150,115 C180,145 210,180 190,195 C170,210 145,160 150,115 Z" />
-                <path class="zona-pintable" id="petalo-4" d="M150,115 C170,155 160,195 150,210 C140,195 130,155 150,115 Z" />
-                <path class="zona-pintable" id="petalo-5" d="M150,115 C120,145 90,180 110,195 C130,210 155,160 150,115 Z" />
-                <path class="zona-pintable" id="petalo-6" d="M150,115 C115,105 80,90 70,115 C60,140 110,145 150,115 Z" />
+                <!-- 6 Pétalos simétricos calculados matemáticamente desde el centro (150, 115) -->
+                <path class="zona-pintable" id="petalo-1" d="M150,115 C150,55 185,25 150,5 C115,25 150,55 150,115 Z" />
+                <path class="zona-pintable" id="petalo-2" d="M150,115 C195,115 225,145 250,115 C225,85 195,115 150,115 Z" />
+                <path class="zona-pintable" id="petalo-3" d="M150,115 C190,150 220,185 240,210 C210,215 175,180 150,115 Z" />
+                <path class="zona-pintable" id="petalo-4" d="M150,115 C150,175 185,205 150,225 C115,205 150,175 150,115 Z" />
+                <path class="zona-pintable" id="petalo-5" d="M150,115 C110,150 80,185 60,210 C90,215 125,180 150,115 Z" />
+                <path class="zona-pintable" id="petalo-6" d="M150,115 C105,115 75,145 50,115 C75,85 105,115 150,115 Z" />
 
                 <!-- Centro de la flor -->
                 <circle class="zona-pintable" id="centro" cx="150" cy="115" r="24" />
             </svg>
         </div>
 
-        <!-- Paleta de colores -->
-        <div class="palette">
-            <div class="color-btn active" style="background-color: #ff4081;" data-color="#ff4081"></div>
-            <div class="color-btn" style="background-color: #7b1fa2;" data-color="#7b1fa2"></div>
-            <div class="color-btn" style="background-color: #ffeb3b;" data-color="#ffeb3b"></div>
-            <div class="color-btn" style="background-color: #4caf50;" data-color="#4caf50"></div>
-            <div class="color-btn" style="background-color: #03a9f4;" data-color="#03a9f4"></div>
-            <div class="color-btn" style="background-color: #ff9800;" data-color="#ff9800"></div>
-            <div class="color-btn" style="background-color: #ffffff; border-color: #ccc;" data-color="#ffffff" title="Borrador"></div>
+        <!-- Paleta de colores interactiva -->
+        <div class="flex justify-center items-center gap-2.5 flex-wrap mb-4">
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95 ring-2 ring-pink-500" style="background-color: #ec4899;" data-color="#ec4899"></button>
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95" style="background-color: #8b5cf6;" data-color="#8b5cf6"></button>
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95" style="background-color: #3b82f6;" data-color="#3b82f6"></button>
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95" style="background-color: #10b981;" data-color="#10b981"></button>
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95" style="background-color: #f59e0b;" data-color="#f59e0b"></button>
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95" style="background-color: #ef4444;" data-color="#ef4444"></button>
+            <button class="color-btn w-9 h-9 rounded-full border-2 border-gray-300 shadow-md transition transform hover:scale-110 active:scale-95" style="background-color: #ffffff;" data-color="#ffffff" title="Borrador"></button>
         </div>
 
-        <div id="mensaje-victoria">✨ ¡Hermosa obra de arte! ¡Completado! 🎉</div>
+        <!-- Mensaje de éxito al completar -->
+        <div id="mensaje-victoria" class="hidden mt-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-xl font-medium text-sm animate-bounce">
+            ✨ ¡Increíble! Has completado tu obra de arte de forma impecable 🎉
+        </div>
     </div>
 
+    <!-- Script de lógica interactiva -->
     <script>
-        let colorActual = "#ff4081";
+        let colorActual = "#ec4899";
         let historial = [];
         let rehacelist = [];
 
@@ -196,29 +98,29 @@
         const colorBtns = document.querySelectorAll('.color-btn');
         const mensajeVictoria = document.getElementById('mensaje-victoria');
 
-        // Selección de color
+        // Manejador de selección de color
         colorBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                colorBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                colorBtns.forEach(b => b.classList.remove('ring-2', 'ring-pink-500'));
+                btn.classList.add('ring-2', 'ring-pink-500');
                 colorActual = btn.getAttribute('data-color');
             });
         });
 
-        // Evento para pintar al hacer clic
+        // Evento click en cada zona interactiva de la flor
         zonas.forEach(zona => {
             zona.addEventListener('click', (e) => {
                 e.stopPropagation();
                 
-                // Obtener color actual real aplicado
                 let colorAnterior = zona.style.fill;
                 if (!colorAnterior || colorAnterior === "") {
                     colorAnterior = "#ffffff";
                 }
 
+                // Registrar en historial si el color cambia
                 if (colorAnterior.toLowerCase() !== colorActual.toLowerCase()) {
                     historial.push({ zona: zona, colorAnterior: colorAnterior, colorNuevo: colorActual });
-                    rehacelist = []; 
+                    rehacelist = []; // Limpiar rehacer al realizar una nueva acción
 
                     zona.style.fill = colorActual;
                     verificarProgreso();
@@ -231,7 +133,7 @@
             const ultimaAccion = historial.pop();
             rehacelist.push(ultimaAccion);
             ultimaAccion.zona.style.fill = ultimaAccion.colorAnterior;
-            mensajeVictoria.style.display = 'none';
+            verificarProgreso();
         }
 
         function rehacer() {
@@ -248,7 +150,7 @@
             });
             historial = [];
             rehacelist = [];
-            mensajeVictoria.style.display = 'none';
+            mensajeVictoria.classList.add('hidden');
         }
 
         function verificarProgreso() {
@@ -260,11 +162,16 @@
                 }
             });
 
+            // Si todas las zonas (tallo, 2 hojas, 6 pétalos y centro = 10 zonas) están pintadas
             if (pintadas === zonas.length) {
-                mensajeVictoria.style.display = 'block';
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                mensajeVictoria.classList.remove('hidden');
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
             } else {
-                mensajeVictoria.style.display = 'none';
+                mensajeVictoria.classList.add('hidden');
             }
         }
     </script>
