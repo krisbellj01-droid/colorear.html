@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App de Colorear Interactiva</title>
+    <title>App de Colorear Interactiva - Flor de 6 Pétalos</title>
     <!-- Librería de Confetti para la celebración -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -90,7 +90,7 @@
         .zona-pintable {
             fill: #ffffff; /* Color inicial blanco */
             stroke: #212121;
-            stroke-width: 3px;
+            stroke-width: 2.5px;
             transition: fill 0.3s ease, filter 0.2s;
             cursor: pointer;
         }
@@ -154,28 +154,29 @@
             <button class="btn" onclick="reiniciar()">🔄 Borrar todo</button>
         </div>
 
-        <!-- Lienzo con un SVG de una flor estilizada -->
+        <!-- Lienzo con un SVG de una flor de 6 pétalos -->
         <div class="canvas-box">
             <svg viewBox="0 0 200 200">
                 <!-- Tallo y Hojas -->
-                <path class="zona-pintable" id="tallo" d="M95 110 Q90 150 95 190 L105 190 Q105 150 105 110 Z" />
-                <path class="zona-pintable" id="hoja-izq" d="M97 140 Q60 120 70 100 Q90 120 97 140 Z" />
-                <path class="zona-pintable" id="hoja-der" d="M103 140 Q140 120 130 100 Q110 120 103 140 Z" />
+                <path class="zona-pintable" id="tallo" d="M96 110 Q92 150 96 190 L104 190 Q108 150 104 110 Z" />
+                <path class="zona-pintable" id="hoja-izq" d="M98 135 Q60 115 65 95 Q85 110 98 135 Z" />
+                <path class="zona-pintable" id="hoja-der" d="M102 135 Q140 115 135 95 Q115 110 102 135 Z" />
                 
-                <!-- Pétalos de la flor -->
-                <path class="zona-pintable" id="petalo-1" d="M100 80 C80 80 60 60 70 40 C80 20 100 40 100 60 Z" />
-                <path class="zona-pintable" id="petalo-2" d="M100 80 C120 80 140 60 130 40 C120 20 100 40 100 60 Z" />
-                <path class="zona-pintable" id="petalo-3" d="M100 80 C80 80 60 100 70 120 C80 140 100 120 100 100 Z" />
-                <path class="zona-pintable" id="petalo-4" d="M100 80 C120 80 140 100 130 120 C120 140 100 120 100 100 Z" />
+                <!-- 6 Pétalos de la flor distribuidos simétricamente -->
+                <path class="zona-pintable" id="petalo-1" d="M100 85 C85 65 75 45 90 35 C105 25 110 50 100 85 Z" />
+                <path class="zona-pintable" id="petalo-2" d="M100 85 C115 65 125 45 110 35 C95 25 90 50 100 85 Z" />
+                <path class="zona-pintable" id="petalo-3" d="M100 85 C120 85 140 80 140 95 C140 110 115 100 100 85 Z" />
+                <path class="zona-pintable" id="petalo-4" d="M100 85 C115 105 125 125 110 135 C95 145 90 120 100 85 Z" />
+                <path class="zona-pintable" id="petalo-5" d="M100 85 C85 105 75 125 90 135 C105 145 110 120 100 85 Z" />
+                <path class="zona-pintable" id="petalo-6" d="M100 85 C80 85 60 80 60 95 C60 110 85 100 100 85 Z" />
                 
                 <!-- Centro de la flor -->
-                <circle class="zona-pintable" id="centro" cx="100" cy="80" r="18" />
+                <circle class="zona-pintable" id="centro" cx="100" cy="85" r="16" />
             </svg>
         </div>
 
         <!-- Paleta de colores interactiva -->
         <div class="palette" id="palette">
-            <!-- El morado viene seleccionado por defecto ;) -->
             <div class="color-btn active" style="background-color: #7b1fa2;" data-color="#7b1fa2"></div>
             <div class="color-btn" style="background-color: #e91e63;" data-color="#e91e63"></div>
             <div class="color-btn" style="background-color: #ffeb3b;" data-color="#ffeb3b"></div>
